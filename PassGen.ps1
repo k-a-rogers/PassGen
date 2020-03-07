@@ -1,42 +1,4 @@
-# Clipboard functions for older PowerShell instances: https://stackoverflow.com/questions/13127578/pipe-output-to-the-clipboard-using-powershell
-
-# https://blogs.technet.microsoft.com/stephap/2012/04/23/building-forms-with-powershell-part-1-the-form/
-# https://theitbros.com/powershell-gui-for-scripts/
-<#
-Title:		Generate-Passphrase-GUI
-Version:	0.1.0
-Status:		In development
-Description:	GUI-based utility to auto-generate passwords and passphrases.
-Changelog:	
-			2018-09-17:	Started development.
-						Removed capital I, capital O, lowercase l, number 0 from character lists to avoid confusion over similar characters.
-						
-			2018-09-18: Reduced special character pool to simplified subset, removing any characters that might cause visual confusion or difficulty in recollection.
-						Merged single-character selection functions into a single New-Char function
-                        Implemented basic UI using Show-UI module.
-                        Added "Copy to clipboard" button
-            2018-09-27: Added "Check username" button to retrieve user's given name from AD and check password against this.
-
-Planned changes:
-            Add button to set target password length
-            Add button to set maximum word length
-            Test all functions in PowerShell 2, implement additional functions if necessary
-            Investigate creating standalone EXE version (possibly as SFX file)
-            Investigate adding AD module to allow checking password for user's name
-            Merge CLI and GUI scripts and add script-level parameter to set mode.
-            				
-Refs:
-			Ogden basic wordlist: http://ogden.basic-english.org/words.html
-			EFF wordlist: https://www.eff.org/files/2016/07/18/eff_large_wordlist.txt
-			MIT 10000 most commond words: http://www.mit.edu/~ecprice/wordlist.10000
-			Note: all wordlists have had single-character words removed. The MIT list includes swearwords so is not suitable for general use without further sanitisation.
-
-            Clipboard functions for older PowerShell instances: https://stackoverflow.com/questions/13127578/pipe-output-to-the-clipboard-using-powershell
-
-			Form construction and syntax in .NET: 
-			https://blogs.technet.microsoft.com/stephap/2012/04/23/building-forms-with-powershell-part-1-the-form/
-			https://theitbros.com/powershell-gui-for-scripts/
-#>
+# PassGen
 
 ##############################
 #
