@@ -6,7 +6,7 @@ Functions are defined for generating passwords & passphrases using a combination
 The wordlists used are as follows:
 Ogden basic wordlist - http://ogden.basic-english.org/words.html
 EFF wordlist - https://www.eff.org/files/2016/07/18/eff_large_wordlist.txt
-MIT 10000 most commond words - http://www.mit.edu/~ecprice/wordlist.10000
+MIT 10000 most common words - http://www.mit.edu/~ecprice/wordlist.10000
 
 The current version uses the Ogden list for simple passphrases and the EFF wordlist for strong passphrases. My copies of these wordlists have had all single-character words removed. The MIT wordlist may require additional sanitisation for use in a professional environment as the raw list includes profanities.
 
