@@ -178,6 +178,10 @@ Function Native-GUI {
 		{
 			New-Passphrase -wordlist "Simple"
 			if ($global:password.Length -gt $($reqlength+10)) {
+				[boolean]$global:lower=$false
+				[boolean]$global:upper=$false
+				[boolean]$global:int=$false
+				[boolean]$global:special=$false
 				New-Passphrase -wordlist "Simple"
 			}
 			$PasswordLabel.Text=$global:password
@@ -199,6 +203,10 @@ Function Native-GUI {
 		{
 			New-Passphrase -wordlist "Strong"
 			if ($global:password.Length -gt $($reqlength+10)) {
+				[boolean]$global:lower=$false
+				[boolean]$global:upper=$false
+				[boolean]$global:int=$false
+				[boolean]$global:special=$false
 				New-Passphrase -wordlist "Common"
 			}
 			$PasswordLabel.Text=$global:password
@@ -221,6 +229,10 @@ Function Native-GUI {
 		{
 			New-Passphrase -wordlist "Strong"
 			if ($global:password.Length -gt $($reqlength+10)) {
+				[boolean]$global:lower=$false
+				[boolean]$global:upper=$false
+				[boolean]$global:int=$false
+				[boolean]$global:special=$false
 				New-Passphrase -wordlist "Strong"
 			}
 			$PasswordLabel.Text=$global:password
@@ -291,6 +303,10 @@ Function ShowUI-GUI {
 			Button -Margin 2 "New simple passphrase" -On_Click {
 				New-Passphrase -wordlist "Simple"
 				if ($global:password.Length -gt $($reqlength+10)) {
+					[boolean]$global:lower=$false
+					[boolean]$global:upper=$false
+					[boolean]$global:int=$false
+					[boolean]$global:special=$false
 					New-Passphrase -wordlist "Simple"
 				}
 				$PasswordLabel.Content=$global:password
@@ -302,6 +318,10 @@ Function ShowUI-GUI {
 			Button -Margin 2 "New common-word passphrase" -On_Click {
 				New-Passphrase -wordlist "Common"
 				if ($global:password.Length -gt $($reqlength+10)) {
+					[boolean]$global:lower=$false
+					[boolean]$global:upper=$false
+					[boolean]$global:int=$false
+					[boolean]$global:special=$false
 					New-Passphrase -wordlist "Common"
 				}
 				$PasswordLabel.Content=$global:password
@@ -313,6 +333,10 @@ Function ShowUI-GUI {
 			Button -Margin 2 "New strong passphrase" -On_Click {
 				New-Passphrase -wordlist "Strong"
 				if ($global:password.Length -gt $($reqlength+10)) {
+					[boolean]$global:lower=$false
+					[boolean]$global:upper=$false
+					[boolean]$global:int=$false
+					[boolean]$global:special=$false
 					New-Passphrase -wordlist "Strong"
 				}
 				$PasswordLabel.Content=$global:password
