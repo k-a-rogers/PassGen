@@ -167,6 +167,7 @@ Function Native-GUI {
 		}
 	)
 	$form.Controls.Add($button1)
+
 	## Button 2
 	$button2=New-Object System.Windows.Forms.Button
 	$button2.Location=New-object System.Drawing.Point(0,40)
@@ -192,6 +193,7 @@ Function Native-GUI {
 		}
 	)
 	$form.Controls.Add($button2)
+
 	## Button 3
 	$button3=New-Object System.Windows.Forms.Button
 	$button3.Location=New-object System.Drawing.Point(0,60)
@@ -243,6 +245,7 @@ Function Native-GUI {
 		}
 	)
 	$form.Controls.Add($button4)
+
 	## Button 5
 	$button5=New-Object System.Windows.Forms.Button
 	$button5.Location=New-object System.Drawing.Point(0,100)
@@ -261,24 +264,59 @@ Function Native-GUI {
 		}
 	)
 	$form.Controls.Add($button5)
+	
 	## Button 6
 	$button6=New-Object System.Windows.Forms.Button
 	$button6.Location=New-object System.Drawing.Point(0,120)
-	$button6.Size=New-Object System.drawing.Size($buttonwidth,18)
-	$button6.Text="Quit"
+	$button6.Size=New-Object System.drawing.Size(($buttonwidth/2),18)
+	$button6.Text="Set required length"
 	$button6.textAlign="MiddleCenter"
 	$button6.BackColor="LightGray"
 	$button6.Add_Click(
 		{
+			$newlength = $textbox.Text
+			if ($newlength -match {1,2}[0-9]) {
+				try {
+					
+					[int]$global:reqlength = $newlength
+					$PasswordLabel.Text = "Required length set to $($global:reqlength) characters."
+				} catch {
+					$PasswordLabel.Text = "Unable to set required length to $($newlength)."					
+				}
+			} else {
+				$PasswordLabel.Text= "Invalid required length specified! Enter a 1- or 2-digit integer."
+			}
+		}
+	)
+	$form.Controls.Add($button6)	
+	
+	## Textbox for Button 6
+	$textBox = New-Object System.Windows.Forms.TextBox
+	$textBox.Location = New-Object System.Drawing.Point((($buttonwidth/2)),120)
+	$textBox.Size = New-Object System.Drawing.Size(($buttonwidth/2),18)
+	$textBox.Text = "$($global:reqlength)"
+	$form.Controls.Add($textBox)
+
+
+	## Button 7
+	$button7=New-Object System.Windows.Forms.Button
+	$button7.Location=New-object System.Drawing.Point(0,140)
+	$button7.Size=New-Object System.drawing.Size($buttonwidth,18)
+	$button7.Text="Quit"
+	$button7.textAlign="MiddleCenter"
+	$button7.BackColor="LightGray"
+	$button7.Add_Click(
+		{
 			$form.close()
 		}
 	)
-	$form.Controls.Add($button6)
-
+	$form.Controls.Add($button7)
+	
 	# Create the label which will be used to display the generated password
 	$PasswordLabel = New-Object System.Windows.Forms.Label
 	$PasswordLabel.text= "Click a button to generate a password!"
-	$PasswordLabel.location=New-Object System.Drawing.Point(0,150)
+	$PasswordLabel.location=New-Object System.Drawing.Point(0,180)
+	$PasswordLabel.TextAlign = "MiddleCenter"
 	$PasswordLabel.autosize=$true
 	$form.Controls.Add($PasswordLabel)
 
@@ -286,142 +324,4 @@ Function Native-GUI {
 	$form.ShowDialog()
 }
 
-Function ShowUI-GUI {
-	ipmo showui
-	Show-UI {
-		StackPanel -Margin 5 {
-			TextBlock "Password generator" -FontWeight Bold -Fontsize 32
-			Button -Margin 2 "New complex password" -On_Click {
-				New-Password
-				$PasswordLabel.Content=$global:password
-				[boolean]$global:lower=$false
-				[boolean]$global:upper=$false
-				[boolean]$global:int=$false
-				[boolean]$global:special=$false
-
-			}
-			Button -Margin 2 "New simple passphrase" -On_Click {
-				New-Passphrase -wordlist "Simple"
-				if ($global:password.Length -gt $($reqlength+10)) {
-					[boolean]$global:lower=$false
-					[boolean]$global:upper=$false
-					[boolean]$global:int=$false
-					[boolean]$global:special=$false
-					New-Passphrase -wordlist "Simple"
-				}
-				$PasswordLabel.Content=$global:password
-				[boolean]$global:lower=$false
-				[boolean]$global:upper=$false
-				[boolean]$global:int=$false
-				[boolean]$global:special=$false
-			}
-			Button -Margin 2 "New common-word passphrase" -On_Click {
-				New-Passphrase -wordlist "Common"
-				if ($global:password.Length -gt $($reqlength+10)) {
-					[boolean]$global:lower=$false
-					[boolean]$global:upper=$false
-					[boolean]$global:int=$false
-					[boolean]$global:special=$false
-					New-Passphrase -wordlist "Common"
-				}
-				$PasswordLabel.Content=$global:password
-				[boolean]$global:lower=$false
-				[boolean]$global:upper=$false
-				[boolean]$global:int=$false
-				[boolean]$global:special=$false
-			}
-			Button -Margin 2 "New strong passphrase" -On_Click {
-				New-Passphrase -wordlist "Strong"
-				if ($global:password.Length -gt $($reqlength+10)) {
-					[boolean]$global:lower=$false
-					[boolean]$global:upper=$false
-					[boolean]$global:int=$false
-					[boolean]$global:special=$false
-					New-Passphrase -wordlist "Strong"
-				}
-				$PasswordLabel.Content=$global:password
-				[boolean]$global:lower=$false
-				[boolean]$global:upper=$false
-				[boolean]$global:int=$false
-				[boolean]$global:special=$false
-			}
-			Button -Margin 2 "Copy to clipboard" -On_Click {
-				try {
-					Get-Command Set-Clipboard -ErrorAction Stop;
-					Set-Clipboard -Value $global:password
-				} catch {
-					$global:password | clip
-				}
-			}
-			Button -Margin 2 "Quit" -On_Click {
-				$window.close()
-			}
-			Label "Click a button to generate a password!" -Name PasswordLabel
-		}
-	}
-}
-
-Function Text-Menu {
-
-$menutext=@"
-Password Generator
-
-1. Generate a new complex password.
-2. Generate a new simple passphrase.
-3. Generate a new common-word passphrase.
-4. Generate a new strong passphrase.
-5. Show last generated password
-6. Quit.
-"@
-
-	[boolean]$quit=$false
-	while (!$quit) {
-		Clear-Host
-		Write-Host $menutext
-		[boolean]$global:lower=$false
-		[boolean]$global:upper=$false
-		[boolean]$global:int=$false
-		[boolean]$global:special=$false
-		
-		$menuchoice=Read-Host("Please enter a choice from the above options")
-		switch ($menuchoice) {
-			"1" {
-				# New conventional password
-				New-Password
-				Write-Host $global:password
-				Read-Host("Press any key to continue")
-			}
-			"2" {
-				# New simple passphrase (Ogden word list)
-				New-Passphrase -wordlist "Simple"
-				Write-Host $global:password
-				Read-Host("Press any key to continue")
-			}
-			"3" {
-				# New common passphrase (MIT 10K most common words list)
-				New-Passphrase -wordlist "Common"
-				Write-Host $global:password
-				Read-Host("Press any key to continue")
-			}
-			"4" {
-				# New strong passphrase (EFF long word list)
-				New-Passphrase -wordlist "Strong"
-				Write-Host $global:password
-				Read-Host("Press any key to continue")
-			}
-			"5" {
-				Write-Host $global:password
-				Read-Host("Press any key to continue")
-			}
-			"6" {
-				# Quit
-				$quit=$true
-			}
-			default {
-				Write-Host "Invalid choice entered, please try again." -foregroundcolor red
-				Start-sleep 3
-			}
-		}
-		
-	}
-}
+Native-GUI
