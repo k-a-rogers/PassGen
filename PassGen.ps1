@@ -8,7 +8,7 @@ function New-Password {
     # Initialise password variable
     [string]$global:password=$null
 
-     while (($global:password.Length -lt $reqlength) -or (!$global:lower) -or (!$global:upper) -or (!$int) -or (!$global:special)) {
+     while (($global:password.Length -lt $global:reqlength) -or (!$global:lower) -or (!$global:upper) -or (!$int) -or (!$global:special)) {
 		$select=Get-Random -Minimum 1 -Maximum 5
 		switch ($select) {
 			"1" {
@@ -40,7 +40,7 @@ function New-Passphrase {
 	Remove-Variable -Name lower,upper,int,special -Force -ErrorAction SilentlyContinue
 	switch ($wordlist) {
 		"Simple" {
-			$dictionary=Get-Content -Path $($PSScriptroot+"\Ogden_basic_dictionary.txt") | ? {$_.Length -gt 4}
+			$dictionary=Get-Content -Path $($PSScriptroot+"\Ogden_basic_dictionary.txt") | Where-Object {$_.Length -gt 4}
 			[boolean]$complex=$false
 			[boolean]$global:special=$true
 		}
@@ -62,7 +62,7 @@ function New-Passphrase {
 	$seed=Get-Random -minimum 0 -maximum $dictionary.count
 	$global:password+=(Get-Culture).TextInfo.ToTitleCase($dictionary[$seed])
 
-    while (($global:password.Length -lt $reqlength) -or (!$global:int) -or (!$global:special)) {
+    while (($global:password.Length -lt $global:reqlength) -or (!$global:int) -or (!$global:special)) {
 		$select=Get-Random -Minimum 1 -Maximum 4
 		switch ($select) {
 			"1" {
@@ -124,7 +124,7 @@ $global:charpool=@("A","B","C","D","E","F","G","H","J","K","M","N","P","Q","R","
 $global:specialpool=@("(",")","!","@","$","&","*","-","+","=",".","?")
 
 # Define  required password length to ensure internal consistency.
-[int]$reqlength=16
+[int]$global:reqlength=16
 
 # UI created with native .NET methods
 Function Native-GUI {
@@ -178,7 +178,7 @@ Function Native-GUI {
 	$button2.Add_Click(
 		{
 			New-Passphrase -wordlist "Simple"
-			if ($global:password.Length -gt $($reqlength+10)) {
+			if ($global:password.Length -gt $($global:reqlength+10)) {
 				[boolean]$global:lower=$false
 				[boolean]$global:upper=$false
 				[boolean]$global:int=$false
@@ -204,7 +204,7 @@ Function Native-GUI {
 	$button3.Add_Click(
 		{
 			New-Passphrase -wordlist "Strong"
-			if ($global:password.Length -gt $($reqlength+10)) {
+			if ($global:password.Length -gt $($global:reqlength+10)) {
 				[boolean]$global:lower=$false
 				[boolean]$global:upper=$false
 				[boolean]$global:int=$false
@@ -230,7 +230,7 @@ Function Native-GUI {
 	$button4.Add_Click(
 		{
 			New-Passphrase -wordlist "Strong"
-			if ($global:password.Length -gt $($reqlength+10)) {
+			if ($global:password.Length -gt $($global:reqlength+10)) {
 				[boolean]$global:lower=$false
 				[boolean]$global:upper=$false
 				[boolean]$global:int=$false
@@ -323,5 +323,10 @@ Function Native-GUI {
 	# Display the form.
 	$form.ShowDialog()
 }
+
+[boolean]$global:lower=$false
+[boolean]$global:upper=$false
+[boolean]$global:int=$false
+[boolean]$global:special=$false
 
 Native-GUI
