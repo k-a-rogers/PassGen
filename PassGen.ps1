@@ -159,7 +159,7 @@ Function Native-GUI {
 	$button1.Add_Click(
 		{
 			New-Password
-			$PasswordLabel.Text=$global:password
+			$PasswordLabel.Text="$($global:password)`nLength:`t$($global:password.Length)
 			[boolean]$global:lower=$false
 			[boolean]$global:upper=$false
 			[boolean]$global:int=$false
@@ -185,7 +185,7 @@ Function Native-GUI {
 				[boolean]$global:special=$false
 				New-Passphrase -wordlist "Simple"
 			}
-			$PasswordLabel.Text=$global:password
+			$PasswordLabel.Text="$($global:password)`nLength:`t$($global:password.Length)
 			[boolean]$global:lower=$false
 			[boolean]$global:upper=$false
 			[boolean]$global:int=$false
@@ -211,7 +211,7 @@ Function Native-GUI {
 				[boolean]$global:special=$false
 				New-Passphrase -wordlist "Common"
 			}
-			$PasswordLabel.Text=$global:password
+			$PasswordLabel.Text="$($global:password)`nLength:`t$($global:password.Length)
 			[boolean]$global:lower=$false
 			[boolean]$global:upper=$false
 			[boolean]$global:int=$false
@@ -237,7 +237,7 @@ Function Native-GUI {
 				[boolean]$global:special=$false
 				New-Passphrase -wordlist "Strong"
 			}
-			$PasswordLabel.Text=$global:password
+			$PasswordLabel.Text="$($global:password)`nLength:`t$($global:password.Length)
 			[boolean]$global:lower=$false
 			[boolean]$global:upper=$false
 			[boolean]$global:int=$false
